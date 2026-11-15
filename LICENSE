@@ -1,0 +1,17 @@
+Copyright (c) 2026 Davi Santiago. Todos os direitos reservados.
+
+Este repositório é público apenas para consulta, como portfólio. Nenhuma
+licença de uso é concedida. Sem autorização prévia e por escrito do autor,
+não é permitido copiar, modificar, distribuir, sublicenciar, publicar ou usar
+comercialmente este código, as imagens próprias e os vídeos deste projeto, no
+todo ou em parte.
+
+Para licenciamento, uso comercial ou contratação:
+davi.santiago.6@gmail.com
+
+Conteúdo de terceiros, que segue as próprias licenças:
+- Fotos de pessoas e do consultório: Unsplash (licença Unsplash), lista em
+  docs/creditos.md.
+- Fontes Instrument Serif e Figtree: SIL Open Font License, carregadas do
+  Google Fonts.
+- Bibliotecas instaladas pelo npm: cada uma sob a sua licença.

@@ -1,0 +1,10 @@
+node_modules
+dist
+dist-ssr
+*.local
+.vercel
+fonte/
+trabalho/
+test-results/
+playwright-report/
+.wrangler/
