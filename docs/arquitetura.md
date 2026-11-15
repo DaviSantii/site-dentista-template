@@ -9,8 +9,8 @@ index.html                  marcação de todas as seções, SEO e JSON-LD
 src/main.ts                 monta o topo, as etapas e as entradas
 src/sequence.ts             quadros num canvas: desenho com mistura (createFramePlayer) e controle pela rolagem do topo
 src/beats.ts                frases do topo conforme o progresso
-src/steps.ts                etapas clicáveis que animam a forma até o quadro de cada etapa
-src/reveal.ts               manifesto palavra por palavra, entradas, parallax, cabeçalho
+src/steps.ts                etapas clicáveis e alternância automática, animando a forma até o quadro de cada etapa
+src/reveal.ts               entradas, parallax, cabeçalho
 src/styles.css              tokens e layout
 scripts/extrair-quadros.sh  quadros WebP do topo e das etapas
 scripts/extrair-etapas.sh   imagens paradas das etapas (reserva e movimento reduzido)
@@ -63,6 +63,8 @@ O ponto do meio foi escolhido numa folha de contato entre 2,9 e 4,9 s: antes de 
 
 O desenho usa o mesmo `createFramePlayer` do topo (canvas, mistura entre quadros vizinhos). Ao clicar numa etapa, um tween do GSAP leva a posição do quadro atual até o quadro da etapa, nos dois sentidos, com `power2.inOut`. A duração é proporcional à distância (`travelDuration`): o vídeo inteiro em 4,5 s, a metade em cerca de 2,2 s, mínimo de 0,9 s. Um clique durante a animação parte de onde a forma está, sem salto. Não há vídeo nessa seção, então não há corte nem reposicionamento.
 
+As etapas também se alternam sozinhas (1, 2, 3 e de volta à 1) enquanto a seção está na tela e a aba está visível. A espera conta a partir da chegada na etapa: 2 s na alternância automática e 8 s depois de um clique, para quem escolheu uma etapa ter tempo de ler. Fora da tela o relógio para e, ao voltar, recomeça a espera que estava valendo. No movimento reduzido não há alternância. No celular, onde só a etapa ativa mostra o texto, o parágrafo ativo tem altura mínima de 4 linhas para a troca não empurrar a página.
+
 O canvas ocupa a coluna da direita inteira, até a borda da tela (foco horizontal 0,92 no desktop, para a forma caber inteira), com um degradê de 22% que funde o fundo da página na borda esquerda. Por baixo dele ficam as três imagens paradas (`extrair-etapas.sh`), que aparecem enquanto os quadros não chegam e no movimento reduzido. Os quadros baixam quando os do topo terminam ou quando a seção chega a 600 px da tela, o que vier primeiro.
 
 No celular o quadro fica preso logo abaixo do cabeçalho enquanto a lista passa, e só a etapa ativa mostra o texto, para a mudança ser vista ao tocar.
@@ -87,7 +89,7 @@ O fundo do CTA final (`public/img/fundo-final.webp`) foi gerado a partir do prim
 
 ## Movimento reduzido
 
-Com `prefers-reduced-motion: reduce` o topo não usa quadros: mostra o pôster com todas as frases empilhadas. As etapas continuam clicáveis e trocam a imagem parada, sem animar. O manifesto fica todo visível e as entradas animadas não rodam.
+Com `prefers-reduced-motion: reduce` o topo não usa quadros: mostra o pôster com todas as frases empilhadas. As etapas continuam clicáveis e trocam a imagem parada, sem animar nem alternar sozinhas. As entradas animadas não rodam.
 
 ## Cache
 
@@ -95,8 +97,8 @@ Na Cloudflare Pages o cabeçalho vem de `public/_headers`; na Vercel, de `vercel
 
 ## Testes
 
-- `npm test`: funções puras de `sequence.ts` (recorte, ordem de carga, suavização, mistura de quadros), `beats.ts` e `steps.ts` (duração da animação entre etapas).
-- `npm run test:e2e`: build de produção na porta 4174, desktop (1440x900) e celular (iPhone 13). Confere que o topo desenha e segue a rolagem; que um salto grande de rolagem é suavizado em vez de pular; que o botão do WhatsApp do fim é clicável (o link é interceptado, o teste não sai para a internet); que o clique nas etapas passa por quadros intermediários antes de parar, nos dois sentidos, e que voltar à etapa 1 para exatamente no quadro do início; movimento reduzido; ausência de erros no console; destino dos CTAs e âncoras. Gera capturas em `test-results/`.
+- `npm test`: funções puras de `sequence.ts` (recorte, ordem de carga, suavização, mistura de quadros), `beats.ts` e `steps.ts` (duração da animação entre etapas e ordem da alternância).
+- `npm run test:e2e`: build de produção na porta 4174, desktop (1440x900) e celular (iPhone 13). Confere que o topo desenha e segue a rolagem; que um salto grande de rolagem é suavizado em vez de pular; que o botão do WhatsApp do fim é clicável (o link é interceptado, o teste não sai para a internet); que o clique nas etapas passa por quadros intermediários antes de parar, nos dois sentidos, e que voltar à etapa 1 para exatamente no quadro do início; que as etapas se alternam sozinhas e esperam 8 s depois de um clique; movimento reduzido; ausência de erros no console; destino dos CTAs e âncoras. Gera capturas em `test-results/`.
 - `FECHAMENTO=1 npm run test:e2e`: ativa o teste que falha se sobrar `[[preencher` na página.
 
 ## Auditoria de desempenho

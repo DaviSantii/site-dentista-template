@@ -12,7 +12,7 @@ Site estático para consultório odontológico com vídeo guiado pela rolagem, e
 |---|---|
 | Papel | Desenvolvimento completo: arquitetura, front-end, testes, desempenho e publicação |
 | Stack | TypeScript, Vite, GSAP (ScrollTrigger), Canvas 2D, Vitest, Playwright, ffmpeg, Cloudflare Workers |
-| Testes | 20 unitários (Vitest) e 12 de ponta a ponta (Playwright, desktop e iPhone 13) contra o build de produção |
+| Testes | 21 unitários (Vitest) e 14 de ponta a ponta (Playwright, desktop e iPhone 13) contra o build de produção |
 | Desempenho | Lighthouse 92 no celular e 99 no desktop no site entregue, CLS perto de zero |
 | Acessibilidade | 96 no Lighthouse, `prefers-reduced-motion`, contraste WCAG AA conferido |
 
@@ -28,7 +28,7 @@ A animação passou por cinco versões até chegar na atual. Cada uma foi testad
 2. **Botões tocando trechos do vídeo.** Pouco fluido, e o vídeo parava em pontos intermediários que não ficavam bons parados.
 3. **Vídeo nativo tocando sozinho.** Fluido, mas sem a interação que o cliente queria.
 4. **Rolagem suavizada (a solução do topo).** A rolagem só define o alvo. Um laço próprio de `requestAnimationFrame` leva a posição até ele com aproximação exponencial, independente da taxa de quadros da tela, e desenha os dois quadros vizinhos misturados pela parte fracionária. Um giro brusco da roda vira movimento contínuo, sem degrau.
-5. **Etapas com o mesmo desenhador de quadros.** Vídeo nativo não toca ao contrário com fluidez, então as etapas usam o canvas com um tween do GSAP de duração proporcional à distância. A forma anima para a frente e para trás, e um clique no meio da animação parte de onde ela está.
+5. **Etapas com o mesmo desenhador de quadros.** Vídeo nativo não toca ao contrário com fluidez, então as etapas usam o canvas com um tween do GSAP de duração proporcional à distância. A forma anima para a frente e para trás, e um clique no meio da animação parte de onde ela está. Sem clique, as etapas se alternam sozinhas a cada 2 s enquanto a seção está na tela; depois de um clique, a escolhida fica 8 s antes de a alternância voltar.
 
 O código separa a lógica pura (cálculo de recorte, ordem de carga, suavização, mistura de quadros, duração das etapas, mensagem do WhatsApp) da parte que mexe na página. A lógica pura é toda coberta por teste unitário.
 
@@ -47,6 +47,7 @@ Os testes de ponta a ponta rodam contra o build de produção e conferem o compo
 - a imagem acompanha a rolagem suavizada, sem pular para o fim num salto grande;
 - o botão de agendamento no fim do topo recebe clique (o link é interceptado, o teste não sai para a internet);
 - cada etapa passa por quadros intermediários antes de parar, nos dois sentidos, e voltar à primeira para no mesmo quadro do início;
+- as etapas se alternam sozinhas e esperam 8 s depois de um clique;
 - com movimento reduzido, o conteúdo aparece parado e as etapas trocam sem animação;
 - os links de WhatsApp têm número e mensagem válidos, e não há erro no console.
 
@@ -76,10 +77,10 @@ npm run etapas -- caminho/etapas.mp4 forma 0.85 0 3.875 7.85
 
 ```
 src/sequence.ts      desenho de quadros no canvas e controle pela rolagem
-src/steps.ts         etapas clicáveis
+src/steps.ts         etapas clicáveis e alternância automática
 src/beats.ts         frases do topo conforme o progresso
 src/whatsapp.ts      link com mensagem pronta e cumprimento pela hora
-src/reveal.ts        entradas, manifesto e parallax
+src/reveal.ts        entradas e parallax
 scripts/             extração de quadros e imagens com ffmpeg
 tests/               Vitest (unit) e Playwright (e2e)
 docs/                arquitetura, design, personalização e créditos

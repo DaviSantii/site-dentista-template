@@ -83,6 +83,8 @@ initSteps({
   frameCount: FRAMES_FORMA,
   fullDuration: 4.5,
   setPos: etapas?.setPos,
+  // sem movimento reduzido: troca de etapa a cada 2 s e espera 8 s depois de um clique
+  autoplay: reduce ? undefined : { hold: 2, afterClick: 8 },
 });
 
 // botões de WhatsApp chegam com a mensagem pronta e o cumprimento da hora

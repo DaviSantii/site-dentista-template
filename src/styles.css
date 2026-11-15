@@ -329,22 +329,6 @@ a {
   opacity: 0;
 }
 
-/* manifesto */
-.manifesto {
-  padding: clamp(7rem, 16vw, 14rem) var(--gutter);
-}
-.manifesto__text {
-  margin: 0;
-  max-width: 22ch;
-  font-family: var(--font-display);
-  font-size: clamp(2.3rem, 5.6vw, 5.4rem);
-  line-height: 1.02;
-  letter-spacing: -0.015em;
-}
-.manifesto__text .w {
-  opacity: 0.15;
-}
-
 /* tratamentos: cartões pequenos lado a lado, com rolagem lateral */
 .treat {
   padding-bottom: clamp(5rem, 10vw, 9rem);
@@ -987,6 +971,8 @@ a {
   }
   .step.is-active p {
     display: block;
+    /* mesma altura para todas as etapas: a troca automática não empurra a página */
+    min-height: 4lh;
   }
   .process__copy {
     grid-row: 2;
@@ -1095,8 +1081,5 @@ a {
   .step,
   .process__still {
     transition: none;
-  }
-  .manifesto__text .w {
-    opacity: 1;
   }
 }

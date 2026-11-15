@@ -74,15 +74,14 @@ As três etapas ficam em lista, ao lado da imagem, que ocupa a coluna da direita
 
 1. Topo com o vídeo "brilho" guiado pela rolagem (400vh).
 2. Sobre o dentista: foto de consultório, texto, trajetória em lista curta e ficha com CRO, especialidades, unidades e pós-graduação. Vem logo depois do topo, para quem chega conhecer o doutor primeiro.
-3. Manifesto revelado palavra por palavra.
-4. Tratamentos em cinco cartões pequenos lado a lado (foto quadrada, número, título e texto curto), numa faixa com rolagem lateral e barra fina em `--accent` embaixo: lentes e facetas, clareamento, prótese e implantes, harmonização facial, lábios.
-5. Faixa em tela cheia com parallax (copo d'água com hortelã) e a frase "Saúde vem antes da estética".
-6. Como funciona: três etapas clicáveis em lista, ao lado da imagem em tela cheia da coluna, em que a forma anima até a etapa escolhida.
-7. Resultados: seis fotos ilustrativas de sorrisos em grade (3 colunas no desktop, 2 no celular), com título e uma linha de legenda cada, e link para mais casos no perfil.
-8. Depoimentos: quatro textos ilustrativos, com a inicial e o procedimento.
-9. Unidades: duas unidades com endereço de exemplo, uma delas com foto de consultório.
-10. CTA final: fundo limpo tirado do próprio vídeo, sem o objeto; foto do dentista em PNG recortado, centralizada na metade esquerda, com a borda esquerda e a base sumindo em degradê; texto e botão à direita. No celular o texto vem em cima e a foto fecha a seção, centralizada.
-11. Rodapé com nome, CRO, especialidades e aviso de que resultados variam.
+3. Tratamentos em cinco cartões pequenos lado a lado (foto quadrada, número, título e texto curto), numa faixa com rolagem lateral e barra fina em `--accent` embaixo: lentes e facetas, clareamento, prótese e implantes, harmonização facial, lábios.
+4. Faixa em tela cheia com parallax (copo d'água com hortelã) e a frase "Saúde vem antes da estética".
+5. Como funciona: três etapas em lista, ao lado da imagem em tela cheia da coluna, em que a forma anima até a etapa ativa. As etapas se alternam sozinhas a cada 2 s; um clique escolhe a etapa e segura a alternância por 8 s.
+6. Resultados: seis fotos ilustrativas de sorrisos em grade (3 colunas no desktop, 2 no celular), com título e uma linha de legenda cada, e link para mais casos no perfil.
+7. Depoimentos: quatro textos ilustrativos, com a inicial e o procedimento.
+8. Unidades: duas unidades com endereço de exemplo, uma delas com foto de consultório.
+9. CTA final: fundo limpo tirado do próprio vídeo, sem o objeto; foto do dentista em PNG recortado, centralizada na metade esquerda, com a borda esquerda e a base sumindo em degradê; texto e botão à direita. No celular o texto vem em cima e a foto fecha a seção, centralizada.
+10. Rodapé com nome, CRO, especialidades e aviso de que resultados variam.
 
 ## Imagens de apoio
 
@@ -99,7 +98,7 @@ As três etapas ficam em lista, ao lado da imagem, que ocupa a coluna da direita
 
 Topo: a rolagem define o alvo, e a imagem chega até ele com suavização de 0,14 s e mistura entre quadros vizinhos, sem degrau nem salto. A página rola de forma nativa.
 
-Etapas: escolher uma etapa anima a forma do quadro atual até o da etapa, para a frente ou para trás (vídeo inteiro em 4,5 s, `power2.inOut`).
+Etapas: escolher uma etapa anima a forma do quadro atual até o da etapa, para a frente ou para trás (vídeo inteiro em 4,5 s, `power2.inOut`). Sem clique, a seção avança sozinha para a etapa seguinte 2 s depois de chegar em cada uma; depois de um clique, espera 8 s.
 
 As entradas das outras seções são ligadas à rolagem: 1 s com `power3.out` e deslocamento de 36 px, parallax de -8% a 8%. Nada gira nem pisca.
 

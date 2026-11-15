@@ -64,9 +64,12 @@ test("etapas animam a forma até o quadro de cada uma, nos dois sentidos", async
   const sec = page.locator("#processo");
   await page.evaluate(() => document.querySelector("#processo")!.scrollIntoView());
   await expect(sec).toHaveClass(/is-ready/, { timeout: 20000 });
+  const steps = sec.locator("[data-step]");
+  // um clique segura a alternância automática por 8 s, tempo de sobra para cada passo do teste
+  await steps.nth(0).click();
+  await expect(sec).not.toHaveClass(/is-moving/, { timeout: 8000 });
   // espera os quadros terminarem de baixar para a animação passar por todos
   await page.waitForTimeout(2500);
-  const steps = sec.locator("[data-step]");
   await expect(sec.locator("video")).toHaveCount(0);
   expect(await canvasPintado(page, ".process__canvas")).toBe(true);
   await expect(steps.nth(0)).toHaveClass(/is-active/);
@@ -111,6 +114,29 @@ test("etapas animam a forma até o quadro de cada uma, nos dois sentidos", async
   await page.waitForTimeout(200);
   expect(await assinatura()).toBe(inicio);
   await expect(steps.nth(0).locator("button")).toHaveAttribute("aria-pressed", "true");
+});
+
+test("etapas se alternam sozinhas e esperam 8 s depois de um clique", async ({ page }) => {
+  await page.goto("/");
+  const sec = page.locator("#processo");
+  await page.evaluate(() => document.querySelector("#processo")!.scrollIntoView());
+  await expect(sec).toHaveClass(/is-ready/, { timeout: 20000 });
+  const steps = sec.locator("[data-step]");
+
+  // sem clique: depois de 2 s parada, vai para a etapa seguinte
+  await expect(steps.nth(1)).toHaveClass(/is-active/, { timeout: 6000 });
+  await expect(sec).not.toHaveClass(/is-moving/, { timeout: 8000 });
+  await expect(steps.nth(2)).toHaveClass(/is-active/, { timeout: 5000 });
+
+  // com clique: fica parada na etapa escolhida por 8 s depois de chegar, e então retoma
+  await steps.nth(0).click();
+  await expect(sec).not.toHaveClass(/is-moving/, { timeout: 8000 });
+  const chegada = Date.now();
+  await page.waitForTimeout(6500);
+  await expect(steps.nth(0)).toHaveClass(/is-active/);
+  await expect(sec).not.toHaveClass(/is-moving/);
+  await expect(steps.nth(1)).toHaveClass(/is-active/, { timeout: 4000 });
+  expect(Date.now() - chegada).toBeGreaterThan(7500);
 });
 
 test("página inteira para conferência", async ({ page }, info) => {

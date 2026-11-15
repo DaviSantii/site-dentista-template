@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { travelDuration } from "../../src/steps";
+import { nextStep, travelDuration } from "../../src/steps";
 
 describe("animação entre etapas", () => {
   it("percorrer o vídeo inteiro leva o tempo cheio, nos dois sentidos", () => {
@@ -17,5 +17,13 @@ describe("animação entre etapas", () => {
 
   it("sem distância, sem animação", () => {
     expect(travelDuration(93, 93, 190, 2.4)).toBe(0);
+  });
+});
+
+describe("alternância automática", () => {
+  it("avança uma etapa e volta para a primeira depois da última", () => {
+    expect(nextStep(0, 3)).toBe(1);
+    expect(nextStep(1, 3)).toBe(2);
+    expect(nextStep(2, 3)).toBe(0);
   });
 });
